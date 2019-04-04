@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import TodoItem from './TodeItem';
 
 class TodoList extends Component {
     constructor (props) {
@@ -16,10 +17,18 @@ class TodoList extends Component {
                         value={this.state.inputValue}
                         onChange={this.change.bind(this)}
                     />
-                    <button>提交</button>
+                    <button
+                        onClick={this.submit.bind(this)}
+                    >提交</button>
                 </div>
                 <ul>
-                    <li>1</li>
+                    {
+                        this.state.listData.map((item, index) => {
+                            return (
+                                <TodoItem key={index} itemData={item}/>
+                            )
+                        })
+                    }
                 </ul>
             </Fragment>
         )
@@ -28,6 +37,14 @@ class TodoList extends Component {
         this.setState({
             inputValue: e.target.value
         });
+    }
+    submit () {
+        if (this.state.inputValue) {
+            this.setState({
+                listData: [...this.state.listData, this.state.inputValue],
+                inputValue: ''
+            });
+        }
     }
 };
 export default TodoList;
