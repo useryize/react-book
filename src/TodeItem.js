@@ -16,6 +16,9 @@ class TodeItem extends Component {
             </div>
         )
     }
+    componentWillUnmount () {
+        console.log('componentWillUnmount: 组件卸载前执行，可以执行componentDidMount中创建的domn避免内存泄漏')
+    }
     deleteItem () {
         let { deleteItem, index } = this.props;
         deleteItem(index);
