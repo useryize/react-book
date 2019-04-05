@@ -30,6 +30,12 @@ class TodoList extends Component {
             </Fragment>
         )
     }
+    componentWillMount () {
+        console.log('componentWillMount:在组件挂在前调用，只会调用一次');
+    }
+    componentDidMount () {
+        console.log('componentDidMount:');
+    }
     TodoItemHtml () {
         return this.state.listData.map((item, index) => {
             return (
