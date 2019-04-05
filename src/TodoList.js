@@ -5,9 +5,12 @@ class TodoList extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            inputValue: '输入..',
+            inputValue: '',
             listData: []
         }
+        this.change = this.change.bind(this);
+        this.submit = this.submit.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
     }
     render () {
         return (
@@ -15,36 +18,52 @@ class TodoList extends Component {
                 <div>
                     <input
                         value={this.state.inputValue}
-                        onChange={this.change.bind(this)}
+                        onChange={this.change}
                     />
                     <button
-                        onClick={this.submit.bind(this)}
+                        onClick={this.submit}
                     >提交</button>
                 </div>
                 <ul>
-                    {
-                        this.state.listData.map((item, index) => {
-                            return (
-                                <TodoItem key={index} itemData={item}/>
-                            )
-                        })
-                    }
+                    {this.TodoItemHtml()}
                 </ul>
             </Fragment>
         )
     }
+    TodoItemHtml () {
+        return this.state.listData.map((item, index) => {
+            return (
+                <TodoItem
+                    key={index}
+                    itemData={item}
+                    index={index}
+                    deleteItem={this.deleteItem}
+                />
+            )
+        })
+    }
     change (e) {
-        this.setState({
-            inputValue: e.target.value
-        });
+        let value = e.target.value;
+        this.setState(() => ({
+            inputValue: value
+        }));
     }
     submit () {
-        if (this.state.inputValue) {
-            this.setState({
-                listData: [...this.state.listData, this.state.inputValue],
+        let { inputValue } = this.state;
+        if (inputValue) {
+            this.setState((val) => ({
+                listData: [...val.listData, val.inputValue],
                 inputValue: ''
-            });
+            }));
         }
+    }
+    deleteItem (index) {
+        let list = [...this.state.listData];
+        list.splice(index, 1);
+
+        this.setState(() => ({
+            listData: list
+        }));
     }
 };
 export default TodoList;
